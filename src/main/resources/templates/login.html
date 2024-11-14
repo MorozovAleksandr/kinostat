@@ -1,17 +1,30 @@
-<!doctype html>
-<html lang="en">
-<head>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="_bootstrap::link">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login</title>
+    <title>Вход</title>
 </head>
 <body>
-<form th:action="@{/login}" method="post">
-    <input type="text" name="username" placeholder="Username"/>
-    <input type="password"
-           name="password"
-           placeholder="Password"/>
-    <button type="submit">Login</button>
-</form>
+<header th:insert="_header"></header>
+<div class="container">
+    <div class="row justify-content-center min-vh-100">
+        <div class="col-4 align-self-center">
+            <form th:action="@{/login}" method="post">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Имя пользователя</label>
+                    <input type="text" name="username" placeholder="Username" class="form-control" id="username"/>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Пароль</label>
+                    <input type="password"
+                           name="password"
+                           placeholder="Password" class="form-control" id="password">
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Войти</button>
+            </form>
+        </div>
+    </div>
+</div>
+<th:block th:insert="_bootstrap::script"></th:block>
 </body>
 </html>
