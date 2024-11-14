@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Kinostat</title>
@@ -7,5 +7,7 @@
 <body>
 <header th:insert="_header"></header>
 <h1>welcome to kinostat</h1>
+<div sec:authorize="hasRole('USER')"><p>Вы авторизованы как пользователь.</p></div>
+<div sec:authorize="hasRole('ADMIN')"><p>Вы авторизованы как администратор.</p></div>
 </body>
 </html>
