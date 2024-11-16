@@ -15,8 +15,16 @@
                     <a class="nav-link active" aria-current="page" href="/">Главная</a>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/movies">Фильмы</a>
+                </li>
+
                 <li sec:authorize="hasRole('ADMIN')" class="nav-item">
                     <a class="nav-link active" aria-current="page" href="/category">Добавить категорию</a>
+                </li>
+
+                <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/movies/add">Добавить фильм</a>
                 </li>
             </ul>
             <ul sec:authorize="!isAuthenticated()" class="navbar-nav me-auto mb-2 mb-lg-0">

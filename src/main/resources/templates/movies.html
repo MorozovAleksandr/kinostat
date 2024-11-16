@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список фильмов</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<header th:insert="_header"></header>
+<div class="container">
+    <h1 class="mt-4">Список фильмов</h1>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Постер</th>
+            <th>Название</th>
+            <th>Описание</th>
+            <th>Дата выпуска</th>
+            <th>Категории</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="movie : ${movies}">
+            <td><img th:src="'data:image/jpeg;base64,' + ${movie.imageBase64}" alt="Poster"
+                     style="width:100px; height:auto;"/></td>
+            <td th:text="${movie.title}"></td>
+            <td th:text="${movie.description}"></td>
+            <td th:text="${movie.releaseDate}"></td>
+            <td>
+                <span th:each="category, iterStat : ${movie.categories}">
+                    <span th:text="${category.name}"></span>
+                    <span th:if="${!iterStat.last}">, </span>
+                </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Пагинация -->
+    <nav>
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+                <a class="page-link" th:href="@{/movies(page=${currentPage - 1}, size=${moviePage.size})}"
+                   aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}"
+                th:classappend="${i == currentPage} ? 'active'">
+                <a class="page-link" th:href="@{/movies(page=${i}, size=${moviePage.size})}" th:text="${i}">1</a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                <a class="page-link" th:href="@{/movies(page=${currentPage + 1}, size=${moviePage.size})}"
+                   aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>

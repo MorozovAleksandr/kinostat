@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить фильм</title>
+</head>
+<body>
+<header th:insert="_header"></header>
+<div class="container">
+    <div class="row justify-content-center min-vh-100">
+        <div class="col-4 align-self-center">
+            <form th:action="@{/movies/add}" th:object="${movie}" enctype="multipart/form-data" method="post">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Введите названиме</label>
+                    <input type="text" name="title" th:field="*{title}" placeholder="Название"
+                           class="form-control" id="title"/>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Введите описание</label>
+                    <input type="text" name="description" th:field="*{description}" placeholder="Описание"
+                           class="form-control" id="description"/>
+                </div>
+                <div class="mb-3">
+                    <label for="releaseDate" class="form-label">Введите описание</label>
+                    <input type="date" name="releaseDate" th:field="*{releaseDate}" placeholder="releaseDate"
+                           class="form-control" id="releaseDate"/>
+                </div>
+
+                <div class="mb-3">
+                    <label for="categories">Выберите жанры:</label>
+                    <select class="form-select" aria-label="Жанры" id="categories" name="categories"
+                            th:field="*{categories}" multiple>
+                        <option th:each="category : ${categories}" th:value="${category.id}"
+                                th:text="${category.name}"></option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="imageFile">Добавьте постер:</label>
+                    <input class="form-control" type="file" id="imageFile" name="imageFile" required/>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Добавить фильм</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
