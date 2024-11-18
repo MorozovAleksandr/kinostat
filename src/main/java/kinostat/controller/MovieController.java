@@ -25,12 +25,20 @@ public class MovieController {
     @Autowired
     CategoryService categoryService;
 
+
     @GetMapping()
-    public String listMovies(Model model, @RequestParam(name = "page", defaultValue = "1") int page, @RequestParam(name = "size", defaultValue = "5") int size) {
-        Page<Movie> moviePage = movieService.findPaginated(page, size);
+    public String listMovies(Model model, @RequestParam(name = "title", required = false) String title, @RequestParam(name = "page", defaultValue = "1") int page, @RequestParam(name = "size", defaultValue = "5") int size) {
+        Page<Movie> moviePage;
+        System.out.println(title);
+        if (title != null && !title.isEmpty()) {
+            moviePage = movieService.searchMoviesByTitle(title, page, size);
+            model.addAttribute("title", title);
+        } else {
+            moviePage = movieService.findPaginated(page, size);
+        }
         List<MovieDto> movies = moviePage.getContent().stream().map(this::convertToDto).collect(Collectors.toList());
-        model.addAttribute("moviePage", moviePage);
         model.addAttribute("movies", movies);
+        model.addAttribute("moviePage", moviePage);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", moviePage.getTotalPages());
         return "movies";

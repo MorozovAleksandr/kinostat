@@ -9,6 +9,12 @@
 <header th:insert="_header"></header>
 <div class="container">
     <h1 class="mt-4">Список фильмов</h1>
+    <form th:action="@{/movies}" method="get" class="mb-4">
+        <div class="input-group"><input type="text" name="title" class="form-control" placeholder="Поиск по названию"
+                                        th:value="${title}">
+            <button class="btn btn-outline-secondary" type="submit">Поиск</button>
+        </div>
+    </form>
     <table class="table table-bordered">
         <thead>
         <tr>
@@ -36,21 +42,23 @@
         </tbody>
     </table>
 
-    <!-- Пагинация -->
     <nav>
         <ul class="pagination">
             <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
-                <a class="page-link" th:href="@{/movies(page=${currentPage - 1}, size=${moviePage.size})}"
+                <a class="page-link"
+                   th:href="@{/movies(page=${currentPage - 1}, size=${moviePage.size}, title=${title})}"
                    aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
             <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}"
                 th:classappend="${i == currentPage} ? 'active'">
-                <a class="page-link" th:href="@{/movies(page=${i}, size=${moviePage.size})}" th:text="${i}">1</a>
+                <a class="page-link" th:href="@{/movies(page=${i}, size=${moviePage.size}, title=${title})}"
+                   th:text="${i}">1</a>
             </li>
             <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-                <a class="page-link" th:href="@{/movies(page=${currentPage + 1}, size=${moviePage.size})}"
+                <a class="page-link"
+                   th:href="@{/movies(page=${currentPage + 1}, size=${moviePage.size}, title=${title})}"
                    aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>

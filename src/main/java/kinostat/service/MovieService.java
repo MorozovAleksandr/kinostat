@@ -21,4 +21,9 @@ public class MovieService {
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
         return movieRepository.findAll(pageable);
     }
+
+    public Page<Movie> searchMoviesByTitle(String title, int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        return movieRepository.findByTitleContaining(title, pageable);
+    }
 }
