@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Просмотр фильма</title>
+</head>
+<body>
+<header th:insert="_header"></header>
+<div class="container">
+    <h1 class="mt-4" th:text="${movie.title}">Название фильма</h1>
+    <div class="row">
+        <div class="col-md-4">
+            <img th:src="'data:image/jpeg;base64,' + ${movie.imageBase64}" alt="Poster"
+                 style="width:100px; height:auto;"/>
+        </div>
+        <div class="col-md-8">
+            <p><strong>Описание:</strong> <span th:text="${movie.description}"></span></p>
+            <p><strong>Дата выпуска:</strong> <span th:text="${movie.releaseDate}"></span></p>
+            <p><strong>Категории:</strong>
+                <span th:each="category, iterStat : ${movie.categories}">
+                    <span th:text="${category.name}"></span>
+                    <span th:if="${!iterStat.last}">, </span>
+                </span>
+            </p>
+        </div>
+    </div>
+    <a th:href="@{/movies}" class="btn btn-primary mt-3">Назад к списку фильмов</a>
+</div>
+</body>
+</html>

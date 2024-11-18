@@ -8,6 +8,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class MovieService {
     @Autowired
@@ -25,5 +27,9 @@ public class MovieService {
     public Page<Movie> searchMoviesByTitle(String title, int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
         return movieRepository.findByTitleContaining(title, pageable);
+    }
+
+    public Optional<Movie> findMovieById(Long id) {
+        return movieRepository.findById(id);
     }
 }

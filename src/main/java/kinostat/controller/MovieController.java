@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -24,7 +25,6 @@ public class MovieController {
 
     @Autowired
     CategoryService categoryService;
-
 
     @GetMapping()
     public String listMovies(Model model, @RequestParam(name = "title", required = false) String title, @RequestParam(name = "page", defaultValue = "1") int page, @RequestParam(name = "size", defaultValue = "5") int size) {
@@ -42,6 +42,13 @@ public class MovieController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", moviePage.getTotalPages());
         return "movies";
+    }
+
+    @GetMapping("{id}")
+    public String showMovie(@PathVariable Long id, Model model) {
+        Optional<Movie> movie = movieService.findMovieById(id);
+        movie.ifPresent(value -> model.addAttribute("movie", convertToDto(value)));
+        return "movie";
     }
 
     @GetMapping("/add")

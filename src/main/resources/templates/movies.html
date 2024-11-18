@@ -29,7 +29,7 @@
         <tr th:each="movie : ${movies}">
             <td><img th:src="'data:image/jpeg;base64,' + ${movie.imageBase64}" alt="Poster"
                      style="width:100px; height:auto;"/></td>
-            <td th:text="${movie.title}"></td>
+            <td><a th:href="@{/movies/{id}(id=${movie.id})}" th:text="${movie.title}"></a></td>
             <td th:text="${movie.description}"></td>
             <td th:text="${movie.releaseDate}"></td>
             <td>
