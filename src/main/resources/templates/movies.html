@@ -23,6 +23,7 @@
             <th>Описание</th>
             <th>Дата выпуска</th>
             <th>Категории</th>
+            <th>Средний рейтинг</th>
         </tr>
         </thead>
         <tbody>
@@ -38,6 +39,7 @@
                     <span th:if="${!iterStat.last}">, </span>
                 </span>
             </td>
+            <td th:text="${movie.averageRating}">0.0</td>
         </tr>
         </tbody>
     </table>

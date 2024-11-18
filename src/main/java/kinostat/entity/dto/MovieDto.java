@@ -14,4 +14,5 @@ public class MovieDto {
     private LocalDate releaseDate;
     private List<Category> categories;
     private String imageBase64;
+    private Double averageRating;
 }

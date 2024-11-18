@@ -28,4 +28,12 @@ public class Movie {
     @ManyToMany
     @JoinTable(name = "movie_category", joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories;
+
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Rating> ratings;
+
+    @Transient
+    public double getAverageRating() {
+        return ratings.stream().mapToInt(Rating::getRating).average().orElse(0.0);
+    }
 }

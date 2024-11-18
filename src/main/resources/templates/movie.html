@@ -22,8 +22,17 @@
                     <span th:if="${!iterStat.last}">, </span>
                 </span>
             </p>
+            <p><strong>Средний рейтинг:</strong> <span th:text="${movie.averageRating}">0.0</span></p>
         </div>
     </div>
+    <form th:action="@{/movies/{id}/rate(id=${movie.id})}" method="post" class="mt-4">
+        <div class="form-group"><label for="rating">Оценка:</label>
+            <input type="number" id="rating" name="rating"
+                   class="form-control" min="1" max="5"
+                   required>
+        </div>
+        <button type="submit" class="btn btn-primary mt-1">Отправить</button>
+    </form>
     <a th:href="@{/movies}" class="btn btn-primary mt-3">Назад к списку фильмов</a>
 </div>
 </body>

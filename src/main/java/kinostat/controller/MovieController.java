@@ -1,11 +1,16 @@
 package kinostat.controller;
 
 import kinostat.entity.Movie;
+import kinostat.entity.Rating;
+import kinostat.entity.User;
 import kinostat.entity.dto.MovieDto;
 import kinostat.service.CategoryService;
 import kinostat.service.MovieService;
+import kinostat.service.RatingService;
+import kinostat.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +30,12 @@ public class MovieController {
 
     @Autowired
     CategoryService categoryService;
+
+    @Autowired
+    RatingService ratingService;
+
+    @Autowired
+    UserService userService;
 
     @GetMapping()
     public String listMovies(Model model, @RequestParam(name = "title", required = false) String title, @RequestParam(name = "page", defaultValue = "1") int page, @RequestParam(name = "size", defaultValue = "5") int size) {
@@ -65,6 +76,22 @@ public class MovieController {
         return "redirect:/movies";
     }
 
+    @PostMapping("{id}/rate")
+    public String rateMovie(@AuthenticationPrincipal User user, @PathVariable("id") Long id, @RequestParam("rating") int rating) {
+        System.out.println(user);
+        System.out.println(id);
+        System.out.println(rating);
+        Optional<Movie> movie = movieService.findMovieById(id);
+        Rating newRating = new Rating();
+        if (movie.isPresent()) {
+            newRating.setMovie(movie.get());
+            newRating.setUser(user);
+            newRating.setRating(rating);
+            ratingService.saveRating(newRating);
+        }
+        return "redirect:/movies/" + id;
+    }
+
     private MovieDto convertToDto(Movie movie) {
         MovieDto dto = new MovieDto();
         dto.setId(movie.getId());
@@ -73,6 +100,7 @@ public class MovieController {
         dto.setReleaseDate(movie.getReleaseDate());
         dto.setCategories(movie.getCategories());
         dto.setImageBase64(Base64.getEncoder().encodeToString(movie.getImage()));
+        dto.setAverageRating(movie.getAverageRating());
         return dto;
     }
 }
