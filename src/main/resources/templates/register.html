@@ -12,6 +12,11 @@
         <div class="col-4 align-self-center">
             <form th:action="@{/register}" th:object="${user}" method="post">
                 <div class="mb-3">
+                    <label for="name" class="form-label">Имя</label>
+                    <input type="text" name="username" th:field="*{name}" placeholder="Name"
+                           class="form-control" id="name"/>
+                </div>
+                <div class="mb-3">
                     <label for="username" class="form-label">Имя пользователя</label>
                     <input type="text" name="username" th:field="*{username}" placeholder="Username"
                            class="form-control" id="username"/>

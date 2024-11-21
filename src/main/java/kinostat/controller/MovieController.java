@@ -38,9 +38,11 @@ public class MovieController {
     UserService userService;
 
     @GetMapping()
-    public String listMovies(Model model, @RequestParam(name = "title", required = false) String title, @RequestParam(name = "page", defaultValue = "1") int page, @RequestParam(name = "size", defaultValue = "5") int size) {
+    public String listMovies(Model model,
+                             @RequestParam(name = "title", required = false) String title,
+                             @RequestParam(name = "page", defaultValue = "1") int page,
+                             @RequestParam(name = "size", defaultValue = "5") int size) {
         Page<Movie> moviePage;
-        System.out.println(title);
         if (title != null && !title.isEmpty()) {
             moviePage = movieService.searchMoviesByTitle(title, page, size);
             model.addAttribute("title", title);
@@ -78,9 +80,6 @@ public class MovieController {
 
     @PostMapping("{id}/rate")
     public String rateMovie(@AuthenticationPrincipal User user, @PathVariable("id") Long id, @RequestParam("rating") int rating) {
-        System.out.println(user);
-        System.out.println(id);
-        System.out.println(rating);
         Optional<Movie> movie = movieService.findMovieById(id);
         Rating newRating = new Rating();
         if (movie.isPresent()) {
